@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <stddef.h>
 
-int main(
-
+int cf_strlen(char *strings);
 
 #endif /*MAIN_H*/
