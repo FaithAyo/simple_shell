@@ -14,7 +14,7 @@ int cf_strlen(char *strings)
 	return (str_len);
 }
 
-/** 
+/**
 * cf_strdup - duplicate the string
 * @strings: string to duplicate
 * Return: Duplicate of the string
@@ -53,4 +53,3 @@ int cf_strcmp(char *first_str, char *second_str)
 	}
 	return (first_str[i] - second_str[i]);
 }
->>>>>>> d903695a4171050a6b53a16da987f56077dfd875

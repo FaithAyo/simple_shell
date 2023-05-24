@@ -25,8 +25,9 @@ char *cf_strcat(char *first_str, char *second_str)
 	new_string[i] = '/';
 	for (j = 0; j < str_len2; j++)
 	{
-		new_string[i +1 + j] = second_str[j];
+		new_string[i + 1 + j] = second_str[j];
 	}
-	new_string[i +1 +j] = '\0';
+	new_string[i + 1 + j] = '\0';
+
 	return (new_string);
 }
