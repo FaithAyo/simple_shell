@@ -13,3 +13,6 @@ int cf_strlen(char *strings)
 
 	return (str_len);
 }
+
+/**
+* 
