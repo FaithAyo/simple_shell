@@ -7,11 +7,12 @@
 */
 int cf_strtok_cmpr(char ch, char *strings)
 {
-unsigned int a;
-for (a = 0; strings[a] != '\0'; a++)
-{
-if (ch == strings[a])
-return (1);
-}
-return (0);
+	unsigned int a;
+
+	for (a = 0; strings[a] != '\0'; a++)
+	{
+	if (ch == strings[a])
+	return (1);
+	}
+	return (0);
 }
