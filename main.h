@@ -8,5 +8,5 @@
 #include <stddef.h>
 
 int cf_strlen(char *strings);
-
+char *cf_strcat(char *first_str, char *second_str);
 #endif /*MAIN_H*/
