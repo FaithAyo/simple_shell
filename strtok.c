@@ -18,7 +18,7 @@ char *cf_strtok(char *strings, char *delim)
 	return (NULL);
 	for (a = 0; first_tok[i] != '\0'; a++)
 	{
-	if (cf_strtok_cmpr(first_tok[a], delim) == 1)
+	if (cf_strtok_cmpr(first_tok[a], delim) == 0)
 	break;
 	}
 	if (next_tok[a] == '\0' || next_tok[a] == '#')
@@ -45,3 +45,39 @@ char *cf_strtok(char *strings, char *delim)
 	return (first_tok);
 }
 
+
+/**
+ * cf_tokenize - tokenize a buffer with a delimiter
+ * @buf: buffer to tokenize
+ * @delim: delimeter to tokenize
+ * Return: pointer ro an array of the tokens
+ */
+char **cf_tokenize(char *buf, char delim)
+{
+	char **tok = NULL;
+	size_t a = 0, count = 10;
+
+	if (buf == NULL)
+		return (NULL);
+	tok = malloc(sizeof(char *) * count);
+	if (tok == NULL)
+	{
+		perror("Fatal Error");
+		return (NULL);
+	}
+	while ((tok[a] = cf_strtok(buf, delim)) != NULL)
+	{
+		a++;
+		if (i == count)
+		{
+			tok = cf_malloc(tok, count);
+			if(tok == NULL)
+			{
+				perror("Fatal Error");
+				return (NULL);
+			}
+		}
+		buffer = NULL;
+	}
+		return (tok);
+}
