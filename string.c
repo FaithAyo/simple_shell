@@ -27,6 +27,10 @@ char *cf_strdup(char *strings)
 
 	str_len = cf_strlen(strings);
 	str_dup = malloc(sizeof(char) * (str_len + 1));
+	if (str_dup == NULL)
+	{
+		return (NULL);
+	}
 	for (i = 0; i <= str_len; i++)
 	{
 		str_dup[i] = strings[i];
