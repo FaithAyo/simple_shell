@@ -41,7 +41,7 @@ char *cf_strdup(char *strings)
 * @second_str: second string to be compared
 * Return: 0 on success or any other value on failure
 */
-int cf_strcmp(char *first_str, char *second_str)
+int cf_strcmp(char *first_str, const char *second_str)
 {
 	int i = 0;
 

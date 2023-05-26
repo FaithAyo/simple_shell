@@ -9,4 +9,7 @@
 
 int cf_strlen(char *strings);
 char *cf_strcat(char *first_str, char *second_str);
+int cf_strcmp(char *first_str, const char *second_str);
+int cf_strtok_cmpr(char c, const char *strings);
+char *cf_strtok(char *strings, const char *delim);
 #endif /*MAIN_H*/
