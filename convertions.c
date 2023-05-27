@@ -9,22 +9,23 @@
 char *int_str(unsigned int num)
 {
 	char *buffer;
-	int num1, len = 0;
+	unsigned int num1, len = 0;
 
 	num1 = num;
 
 	for (len = 0; num1 != 0; len++)
-		num1 = num1 / 10;
+		num1 /=  10;
 	buffer = malloc(sizeof(char) * (len + 1));
 	if (buffer == NULL)
 	{
-		return (NULL);
+		perror("Fatal Error1");
+		exit(127);
 	}
 	buffer[len] = '\0';
 	for (--len; num; --len)
 	{
 		buffer[len] = (num % 10) + '0';
-		num = num / 10;
+		num /= 10;
 	}
 	return (buffer);
 }
@@ -57,7 +58,7 @@ void _puts(char *str)
  */
 int str_int(char *str)
 {
-	unsigned int count = 0, size = 0;
+/*	unsigned int count = 0, size = 0;
 	unsigned int a= 0, b = 1, c = 1, i;
 
 	while (*(str + count) != '\0')
@@ -79,5 +80,25 @@ int str_int(char *str)
 		a = a + ((*(str + i) - 48)*c);
 		c /= 10;
 	}
-	return (a * b);	
+	return (a * b);*/
+unsigned int i, digits;
+	int num = 0, num_test;
+
+	num_test = INT_MAX;
+	for (digits = 0; num_test != 0; digits++)
+		num_test /= 10;
+	for (i = 0; str[i] != '\0' && i < digits; i++)
+	{
+		num *= 10;
+		if (str[i] < '0' || str[i] > '9')
+			return (-1);
+		if ((i == digits - 1) && (str[i] - '0' > INT_MAX % 10))
+			return (-1);
+		num += str[i] - '0';
+		if ((i == digits - 2) && (str[i + 1] != '\0') && (num > INT_MAX / 10))
+			return (-1);
+	}
+	if (i > digits)
+		return (-1);
+	return (num);	
 }
