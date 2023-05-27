@@ -11,17 +11,17 @@ char **cf_malloc(char **pt, size_t *num)
 	char **av_new;
 	size_t a;
 
-	av_new = malloc(sizeof(char *) * ((*size) + 10));
+	av_new = malloc(sizeof(char *) * ((*num) + 10));
 	if (av_new == NULL)
 	{
 		free(pt);
 		return (NULL);
 	}
-	for (a =0; i < (*size); i++)
+	for (a =0; a < (*num); a++)
 	{
 		av_new[a] = pt[a];
 	}
-	*size += 10;
-	free(ptr);
-	return (new);
+	*num += 10;
+	free(pt);
+	return (av_new);
 }

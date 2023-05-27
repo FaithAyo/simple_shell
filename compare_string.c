@@ -5,7 +5,7 @@
 * @strings: strings to be compared
 * Return: 1 if character is same as string, and 0 if not
 */
-int cf_strtok_cmpr(char ch, char *strings)
+int cf_strtok_cmpr(char ch, const char *strings)
 {
 	unsigned int a;
 

@@ -6,11 +6,11 @@
  *
  * Return: pointer to the function or NULL
  */
-void (*builtins(cf_data *myshell))(cf_data *myshell)
+void (*cf_builtins(cf_data *myshell))(cf_data *myshell)
 {
 	unsigned int i;
 	cf_builtin list[] = {
-		{"exit", _exit},
+		{"exit", __exit},
 		{"env", _env},
 		{"setenv", _setenv},
 		{"unsetenv", _unsetenv},
@@ -19,7 +19,7 @@ void (*builtins(cf_data *myshell))(cf_data *myshell)
 
 	for (i = 0; list[i].f != NULL; i++)
 	{
-		if (cf_strcmp(cf_data->av[0], list[i].name) == 0)
+		if (cf_strcmp(myshell->av[0], list[i].name) == 0)
 			break;
 	}
 	if (list[i].f != NULL)

@@ -47,12 +47,13 @@ typedef struct data
 typedef struct builtin
 {
 	char *name;
-	int (*f)(cf_data *);
+	void (*f)(cf_data *);
 } cf_builtin;
 
-
-void set_data(cf_data *myshell, char **av);
-void free_envir(cf_data * myshell);
+static void sig_handler(int cc);
+int main(int ac, char **argv, char **environ);
+char **set_env(char **env);
+void free_envir(char **env);
 
 int cf_strlen(char *strings);
 char *cf_strdup(char *strings);
@@ -60,8 +61,7 @@ int cf_strcmp(char *first_str, char *second_str);
 char *cf_strcat(char *first_str, char *second_str);
 
 void print_error(cf_data *myshell, char *cmd);
-void cf_prompt(void);
-void cf_cntrlc(int sig);
+static void cf_cntrlc(int cc);
 int cf_prints(char *strings);
 void print_error(cf_data *myshell, char *cmd);
 
@@ -81,5 +81,19 @@ void create_env(cf_data *myshell);
 char *create_env_str(char *first_val, char *second_val);
 char **search_env(char **env, char *val);
 
+/* path.c*/
+void cf_check_4path(cf_data *buf);
+char *cf_path_finder(char **environ);
+int cf_execute_path(char *cmd, cf_data *buf);
+
+/*strtok.c*/
+char *cf_strtok(char *strings, const char *delim);
+char **cf_tokenize(char *buf, char *delim);
+int cf_strtok_cmpr(char ch, const char *strings);
+char **cf_malloc(char **pt, size_t *num);
+
+/* directory.c*/
+int cf_execute_cwd(cf_data *buf);
+int cf_check_4dir(char *strings);
 
 #endif /*MAIN_H*/

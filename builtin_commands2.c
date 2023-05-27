@@ -1,7 +1,5 @@
 #include "main.h"
 
-#include "shell.h"
-
 /**
  * create_env - create a new environment variable
  * @myshell: pointer to struct of variables
@@ -20,7 +18,7 @@ void create_env(cf_data *myshell)
 	{
 		print_error(myshell, NULL);
 		myshell->status = 127;
-		_exit(myshell);
+		__exit(myshell);
 	}
 	for (i = 0; myshell->_environ[i] != NULL; i++)
 		newenv[i] = myshell->_environ[i];
@@ -31,7 +29,7 @@ void create_env(cf_data *myshell)
 		free(myshell->linept);
 		free(myshell->commands);
 		free(myshell->av);
-		free_envir(vars->_environ);
+		free_envir(myshell->_environ);
 		free(newenv);
 		exit(127);
 	}
@@ -53,8 +51,8 @@ char *create_env_str(char *first_val, char *second_val)
 	unsigned int len1, len2, i, j;
 	char *new;
 
-	len1 = _strlen(first_val);
-	len2 = _strlen(second_val);
+	len1 = cf_strlen(first_val);
+	len2 = cf_strlen(second_val);
 	new = malloc(sizeof(char) * (len1 + len2 + 2));
 	if (new == NULL)
 		return (NULL);
@@ -79,7 +77,7 @@ char **search_env(char **env, char *val)
 {
 	unsigned int i, j, len;
 
-	len = _strlen(key);
+	len = cf_strlen(val);
 	for (i = 0; env[i] != NULL; i++)
 	{
 		for (j = 0; j < len; j++)

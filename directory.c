@@ -8,15 +8,14 @@ int cf_check_4dir(char *strings)
 {
 	unsigned int a;
 
-	for (a = 0; str[a]; a++)
+	for (a = 0; strings[a]; a++)
 	{
-		if (str[a] == '/')
+		if (strings[a] == '/')
 			return (1);
 	}
 	return (0);
 }
 
-}
 
 /**
  * cf_execute_cwd - the fxn executes a cwd command
@@ -30,15 +29,15 @@ int cf_execute_cwd(cf_data *buf)
 
 	if (stat(buf->av[0], &var) == 0)
 	{
-		if (access(cmd, X_OK) == 0)
+		if (access(buf->av[0], X_OK) == 0)
 	{
 		c_pid = fork();
 		if (c_pid == -1)
-			cf_print_error(buf, NULL);
+			print_error(buf, NULL);
 		if (c_pid == 0)
 		{
-			if (execve(cmd, buf->av, buf->env) == -1)
-				cf_print_error(buf, NULL);
+			if (execve(buf->av[0], buf->av, buf->_environ) == -1)
+				print_error(buf, NULL);
 		}
 		else
 		{
@@ -54,8 +53,9 @@ int cf_execute_cwd(cf_data *buf)
 	}
 	else
 	{
-		cf_print_error(buf, ": Permission denied\n");
+		print_error(buf, ": Permission denied\n");
 		buf->status = 126;
+	}
 	}
 	return (0);
 }

@@ -15,7 +15,7 @@ void cf_check_4path(cf_data *buf)
 		b = cf_execute_cwd(buf);
 	else
 	{
-		path = cf_path_finder(buf->env);
+		path = cf_path_finder(buf->_environ);
 		if (path != NULL)
 		{
 			dup_path = cf_strdup(path + 5);
@@ -34,18 +34,18 @@ void cf_check_4path(cf_data *buf)
 			if (tok_path == NULL)
 			{
 				buf->status = 127;
-				cf_exit(buf);
+				__exit(buf);
 			}
 		}
 		if (path == NULL || tok_path[a] == NULL)
 		{
-			cf_print_error(buf, ": not found\n");
+			print_error(buf, ": not found\n");
 			buf->status = 127;
 		}
 		free(tok_path);
 	}
 	if (b == 1)
-		cf_exit(buf);
+		__exit(buf);
 }
 
 /**
@@ -84,11 +84,11 @@ int cf_execute_path(char *cmd, cf_data *buf)
 	{
 		c_pid = fork();
 		if (c_pid == -1)
-			cf_print_error(buf, NULL);
+			print_error(buf, NULL);
 		if (c_pid == 0)
 		{
-			if (execve(cmd, buf->av, buf->env) == -1)
-				cf_print_error(buf, NULL);
+			if (execve(cmd, buf->av, buf->_environ) == -1)
+				print_error(buf, NULL);
 		}
 		else
 		{
@@ -104,7 +104,7 @@ int cf_execute_path(char *cmd, cf_data *buf)
 	}
 	else
 	{
-		cf_print_error(buf, ": Permission denied\n");
+		print_error(buf, ": Permission denied\n");
 		buf->status = 126;
 	}
 	return (0);

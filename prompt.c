@@ -1,27 +1,4 @@
 #include "main.h"
-/**
- * cf_prompt - print the command prompt
- * Return: void
- */
-void cf_prompt(void)
-{
-	char *prompt = "cf$$ ";
-
-	if (isatty(STDIN_FILENO))
-		write(1, prompt, strlen(prompt));
-}
-
-/**
- * cf_cntrlc - interrupts the signal
- * @sig: control c signal from the keyboard
- * Return: void
- */
-void cf_cntrlc(int sig)
-{
-	void(sig);
-	char *cntrlc = "\ncf$$ ";
-	cf_prints(cntrlc);
-}
 
 /**
  * cf_prints - fxn that prints to standard output

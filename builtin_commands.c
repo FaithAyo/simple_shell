@@ -67,12 +67,12 @@ void _setenv(cf_data *myshell)
 		myshell->status = 2;
 		return;
 	}
-	buf = create_env(myshell->_environ, myshell->av[1]);
+	buf = search_env(myshell->_environ, myshell->av[1]);
 	if (buf == NULL)
-		create_env_str(myshell);
+		create_env(myshell);
 	else
 	{
-		val = search_env(myshell->av[1], myshell->av[2]);
+		val = create_env_str(myshell->av[1], myshell->av[2]);
 		if (val == NULL)
 		{
 			print_error(myshell, NULL);
@@ -85,7 +85,7 @@ void _setenv(cf_data *myshell)
 		free(*buf);
 		*buf = val;
 	}
-	vars->status = 0;
+	myshell->status = 0;
 }
 
 /**
@@ -106,7 +106,7 @@ void _unsetenv(cf_data *myshell)
 		myshell->status = 2;
 		return;
 	}
-	val = create_env(myshell->_environ, myshell->av[1]);
+	val = search_env(myshell->_environ, myshell->av[1]);
 	if (val == NULL)
 	{
 		print_error(myshell, ": No variable");
