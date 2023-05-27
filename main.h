@@ -1,95 +1,81 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef _MAIN_H_
+#define _MAIN_H_
 
 #include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <signal.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <limits.h>
 #include <stdlib.h>
-#include <stddef.h>
-
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
+#include <limits.h>
+#include <signal.h>
 
 
 /**
  * struct variables - variables
  * @av: command line arguments
- * @linept: buffer of command
+ * @buffer: buffer of command
  * @env: environment variables
  * @count: count of commands entered
  * @argv: arguments at opening of shell
  * @status: exit status
  * @commands: double pointer to commands
  */
-typedef struct data
+typedef struct variables
 {
 	char **av;
-	char *linept;
+	char *buffer;
+	char **env;
 	size_t count;
 	char **argv;
 	int status;
 	char **commands;
-	char **_environ;
-} cf_data;
-
-
+} vars_t;
 
 /**
- * struct builtin - structure for all my builtin functions
- * @name: name of builtin
- * @f: function for the builtin
+ * struct builtins - struct for the builtin functions
+ * @name: name of builtin command
+ * @f: function for corresponding builtin
  */
-
-typedef struct builtin
+typedef struct builtins
 {
 	char *name;
-	void (*f)(cf_data *);
-} cf_builtin;
+	void (*f)(vars_t *);
+} builtins_t;
 
-char **set_env(char **env);
-void free_envir(char **env);
+char **make_env(char **env);
+void free_env(char **env);
 
-int cf_strlen(char *strings);
-char *cf_strdup(char *strings);
-int cf_strcmp(char *first_str, char *second_str);
-char *cf_strcat(char *first_str, char *second_str);
+ssize_t _puts(char *str);
+char *_strdup(char *strtodup);
+int _strcmpr(char *strcmp1, char *strcmp2);
+char *_strcat(char *strc1, char *strc2);
+unsigned int _strlen(char *str);
 
-void print_error(cf_data *myshell, char *cmd);
-int cf_prints(char *strings);
-void print_error(cf_data *myshell, char *cmd);
+char **tokenize(char *buffer, char *delimiter);
+char **_realloc(char **ptr, size_t *size);
+char *new_strtok(char *str, const char *delim);
 
+void (*check_for_builtins(vars_t *vars))(vars_t *vars);
+void new_exit(vars_t *vars);
+void _env(vars_t *vars);
+void new_setenv(vars_t *vars);
+void new_unsetenv(vars_t *vars);
 
-char *int_str(unsigned int num);
-void _puts(char *str);
-int str_int(char *str);
+void add_key(vars_t *vars);
+char **find_key(char **env, char *key);
+char *add_value(char *key, char *value);
+int _atoi(char *str);
 
+void check_for_path(vars_t *vars);
+int path_execute(char *command, vars_t *vars);
+char *find_path(char **env);
+int execute_cwd(vars_t *vars);
+int check_for_dir(char *str);
 
-/* builtin functions*/
-void (*cf_builtins(cf_data *myshell))(cf_data *myshell);
-void __exit(cf_data *myshell);
-void _env(cf_data *myshell);
-void _setenv(cf_data *myshell);
-void _unsetenv(cf_data *myshell);
-void create_env(cf_data *myshell);
-char *create_env_str(char *first_val, char *second_val);
-char **search_env(char **env, char *val);
+void print_error(vars_t *vars, char *msg);
+void _puts2(char *str);
+char *_uitoa(unsigned int count);
 
-/* path.c*/
-void cf_check_4path(cf_data *buf);
-char *cf_path_finder(char **environ);
-int cf_execute_path(char *cmd, cf_data *buf);
-
-/*strtok.c*/
-char *cf_strtok(char *strings, const char *delim);
-char **cf_tokenize(char *buf, char *delim);
-int cf_strtok_cmpr(char ch, const char *strings);
-char **cf_malloc(char **pt, size_t *num);
-
-/* directory.c*/
-int cf_execute_cwd(cf_data *buf);
-int cf_check_4dir(char *strings);
-
-#endif /*MAIN_H*/
+#endif /* _MAIN_H_ */
