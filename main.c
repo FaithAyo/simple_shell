@@ -1,7 +1,7 @@
 #include "main.h"
 
 /* global variable for ^C handling */
-unsigned int sig_flag;
+
 
 /**
  * sig_handler - handles ^C signal interupt
@@ -11,6 +11,7 @@ unsigned int sig_flag;
  */
 static void sig_handler(int uuv)
 {
+	unsigned int sig_flag;
 	(void) uuv;
 	if (sig_flag == 0)
 		_puts("\n$ ");
@@ -28,6 +29,7 @@ static void sig_handler(int uuv)
  */
 int main(int argc, char **argv, char **environment)
 {
+	unsigned int sig_flag;
 	(void)argc;
 	size_t len_buffer = 0;
 	unsigned int is_pipe = 0, i;
