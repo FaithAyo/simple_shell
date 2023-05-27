@@ -27,7 +27,7 @@ char *cf_strtok(char *strings, const char *delim)
 	return (NULL);
 	}
 	first_tok = next_tok + a;
-	first_tok = next_tok;
+	next_tok = first_tok;
 	for (a = 0; next_tok[1] != '\0'; a++)
 	{
 	if (cf_strtok_cmpr(next_tok[a], delim) == 1)
@@ -79,5 +79,5 @@ char **cf_tokenize(char *buf, char *delim)
 		}
 		buf = NULL;
 	}
-		return (tok);
+	return (tok);
 }

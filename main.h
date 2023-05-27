@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <stddef.h>
 
-extern char **environ;
 
 
 /**
@@ -50,8 +49,6 @@ typedef struct builtin
 	void (*f)(cf_data *);
 } cf_builtin;
 
-static void sig_handler(int cc);
-int main(int ac, char **argv, char **environ);
 char **set_env(char **env);
 void free_envir(char **env);
 
@@ -61,7 +58,6 @@ int cf_strcmp(char *first_str, char *second_str);
 char *cf_strcat(char *first_str, char *second_str);
 
 void print_error(cf_data *myshell, char *cmd);
-static void cf_cntrlc(int cc);
 int cf_prints(char *strings);
 void print_error(cf_data *myshell, char *cmd);
 
@@ -72,7 +68,7 @@ int str_int(char *str);
 
 
 /* builtin functions*/
-void (*builtins(cf_data *myshell))(cf_data *myshell);
+void (*cf_builtins(cf_data *myshell))(cf_data *myshell);
 void __exit(cf_data *myshell);
 void _env(cf_data *myshell);
 void _setenv(cf_data *myshell);
