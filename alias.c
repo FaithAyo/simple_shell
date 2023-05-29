@@ -15,41 +15,41 @@ void print_alias(alias_t *alias);
  */
 int shellby_alias(char **args, char __attribute__((__unused__)) **front)
 {
-	alias_t *temp = aliases;
-	int i, ret = 0;
-	char *value;
+	alias_t *tem = aliases;
+	int a, retn = 0;
+	char *val;
 
 	if (!args[0])
 	{
-		while (temp)
+		while (tem)
 		{
-			print_alias(temp);
-			temp = temp->next;
+			print_alias(tem);
+			tem = tem->next;
 		}
-		return (ret);
+		return (retn);
 	}
-	for (i = 0; args[i]; i++)
+	for (a = 0; args[a]; a++)
 	{
-		temp = aliases;
-		value = _strchr(args[i], '=');
-		if (!value)
+		tem = aliases;
+		val = _strchr(args[a], '=');
+		if (!val)
 		{
-			while (temp)
+			while (tem)
 			{
-				if (_strcmp(args[i], temp->name) == 0)
+				if (_strcmp(args[a], tem->name) == 0)
 				{
-					print_alias(temp);
+					print_alias(tem);
 					break;
 				}
-				temp = temp->next;
+				tem = tem->next;
 			}
-			if (!temp)
-				ret = create_error(args + i, 1);
+			if (!tem)
+				retn = create_error(args + a, 1);
 		}
 		else
-			set_alias(args[i], value);
+			set_alias(args[a], val);
 	}
-	return (ret);
+	return (retn);
 }
 
 /**
@@ -60,34 +60,34 @@ int shellby_alias(char **args, char __attribute__((__unused__)) **front)
  */
 void set_alias(char *var_name, char *value)
 {
-	alias_t *temp = aliases;
-	int len, j, k;
-	char *new_value;
+	alias_t *tem = aliases;
+	int length, a, b;
+	char *new_val;
 
 	*value = '\0';
 	value++;
-	len = _strlen(value) - _strspn(value, "'\"");
-	new_value = malloc(sizeof(char) * (len + 1));
-	if (!new_value)
+	length = _strlen(value) - _strspn(value, "'\"");
+	new_val = malloc(sizeof(char) * (length + 1));
+	if (!new_val)
 		return;
-	for (j = 0, k = 0; value[j]; j++)
+	for (a = 0, b = 0; value[a]; a++)
 	{
-		if (value[j] != '\'' && value[j] != '"')
-			new_value[k++] = value[j];
+		if (value[a] != '\'' && value[a] != '"')
+			new_val[b++] = value[a];
 	}
-	new_value[k] = '\0';
-	while (temp)
+	new_val[a] = '\0';
+	while (tem)
 	{
-		if (_strcmp(var_name, temp->name) == 0)
+		if (_strcmp(var_name, tem->name) == 0)
 		{
-			free(temp->value);
-			temp->value = new_value;
+			free(tem->value);
+			tem->value = new_val;
 			break;
 		}
-		temp = temp->next;
+		tem = tem->next;
 	}
-	if (!temp)
-		add_alias_end(&aliases, var_name, new_value);
+	if (!tem)
+		add_alias_end(&aliases, var_name, new_val);
 }
 
 /**
@@ -96,19 +96,19 @@ void set_alias(char *var_name, char *value)
  */
 void print_alias(alias_t *alias)
 {
-	char *alias_string;
-	int len = _strlen(alias->name) + _strlen(alias->value) + 4;
+	char *alias_str;
+	int length = _strlen(alias->name) + _strlen(alias->value) + 4;
 
-	alias_string = malloc(sizeof(char) * (len + 1));
-	if (!alias_string)
+	alias_str = malloc(sizeof(char) * (length + 1));
+	if (!alias_str)
 		return;
-	_strcpy(alias_string, alias->name);
-	_strcat(alias_string, "='");
-	_strcat(alias_string, alias->value);
-	_strcat(alias_string, "'\n");
+	_strcpy(alias_str, alias->name);
+	_strcat(alias_str, "='");
+	_strcat(alias_str, alias->value);
+	_strcat(alias_str, "'\n");
 
-	write(STDOUT_FILENO, alias_string, len);
-	free(alias_string);
+	write(STDOUT_FILENO, alias_str, length);
+	free(alias_str);
 }
 /**
  * replace_aliases - Goes through the arguments and replace any matching alias
@@ -119,32 +119,32 @@ void print_alias(alias_t *alias)
  */
 char **replace_aliases(char **args)
 {
-	alias_t *temp;
-	int i;
-	char *new_value;
+	alias_t *tem;
+	int a;
+	char *new_val;
 
 	if (_strcmp(args[0], "alias") == 0)
 		return (args);
-	for (i = 0; args[i]; i++)
+	for (a = 0; args[a]; a++)
 	{
-		temp = aliases;
-		while (temp)
+		tem = aliases;
+		while (tem)
 		{
-			if (_strcmp(args[i], temp->name) == 0)
+			if (_strcmp(args[a], tem->name) == 0)
 			{
-				new_value = malloc(sizeof(char) * (_strlen(temp->value) + 1));
-				if (!new_value)
+				new_val = malloc(sizeof(char) * (_strlen(tem->value) + 1));
+				if (!new_val)
 				{
 					free_args(args, args);
 					return (NULL);
 				}
-				_strcpy(new_value, temp->value);
-				free(args[i]);
-				args[i] = new_value;
-				i--;
+				_strcpy(new_val, tem->value);
+				free(args[a]);
+				args[a] = new_val;
+				a--;
 				break;
 			}
-			temp = temp->next;
+			tem = tem->next;
 		}
 	}
 
